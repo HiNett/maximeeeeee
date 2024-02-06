@@ -1,10 +1,158 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Welcome to my portfolio !</title>
-		<meta charset="utf-8">
-	</head>
-	<body>
+<head>
+    <title>Welcome to my portfolio!</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+			background-color: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 50px 0;
+        }
+        .header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+        .header p {
+            font-size: 18px;
+        }
+        .myProjects {
+            text-align: center;
+            padding: 50px 0;
+        }
+        .myProjects h2 {
+            font-size: 28px;
+        }
+        .video-container {
+            position: relative;
+            display: none; /* Keep the video container hidden */
+        }
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s ease-in-out;
+        }
+        .video-overlay.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .video-overlay button {
+            background-color: #ff6600;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .contactMe {
+            text-align: center;
+            padding: 50px 0;
+        }
+        .contactMe h2 {
+            font-size: 28px;
+        }
+        .footer {
+            text-align: center;
+            padding: 50px 0;
+        }
+        .footer p {
+            font-size: 16px;
+        }
+        #fullScreenImage {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to my portfolio!</h1>
+            <p>My name is Elone, and I'm happy to be a Student at ALGOSUP Business School</p>
+        </div>
+        <div class="myProjects">
+            <h2>My projects</h2>
+            <p>Here are some of my projects</p>
+            <div class="video-container">
+                <video id="myVideo" controls>
+                    <source src="shrekouille.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay" id="videoOverlay">
+                    <button id="closeButton">Close Video</button>
+                </div>
+            </div>
+            <p id="text" style="cursor: pointer;">Click here to see my best project.</p>
+        </div>
+        <div class="contactMe">
+            <h2>Contact me</h2>
+            <p>I don't want to be contacted. Sorry!</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2601 Elone</p>
+        </div>
+    </div>
+    <img id="fullScreenImage" src="shrek.jpg" alt="Full Screen Image">
+    <script>
+        const container = document.querySelector('.container');
+        const videoContainer = document.querySelector('.video-container');
+        const video = document.getElementById('myVideo');
+        const videoOverlay = document.getElementById('videoOverlay');
+        const closeButton = document.getElementById('closeButton');
+        const fullScreenImage = document.getElementById('fullScreenImage');
 
-	</body>
+        document.getElementById('text').addEventListener('click', () => {
+            videoContainer.style.display = 'block';
+            video.play();
+            if (video.requestFullscreen) {
+                video.requestFullscreen();
+            } else if (video.mozRequestFullScreen) {
+                video.mozRequestFullScreen();
+            } else if (video.webkitRequestFullscreen) {
+                video.webkitRequestFullscreen();
+            }
+            videoOverlay.classList.add('show');
+        });
+
+        closeButton.addEventListener('click', () => {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+            video.pause();
+            videoOverlay.classList.remove('show');
+            videoContainer.style.display = 'none';
+            fullScreenImage.style.display = 'block';
+        });
+    </script>
+</body>
 </html>
